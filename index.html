@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>klaut.pro — Agentic AI service layer</title>
+  <meta name="description" content="klaut.pro ist die Service-Schicht für autonome Agenten: Mail, Secrets, Books, Search, Database, Storage und Literature." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --bg-muted: #f4f4f5;
+      --text: #0a0a0a;
+      --text-muted: #52525b;
+      --accent: #6a2800;
+      --accent-on: #fafafa;
+      --accent-muted: #4a1c00;
+      --border: #e4e4e7;
+      --font-h: "IBM Plex Sans", system-ui, sans-serif;
+      --font-b: "IBM Plex Serif", Georgia, serif;
+      --space-xl: 40px;
+      --space-2xl: 56px;
+      --radius: 8px;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-b);
+      line-height: 1.55;
+      background-image:
+        radial-gradient(ellipse 80% 50% at 10% -10%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 55%),
+        radial-gradient(ellipse 60% 40% at 100% 0%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 50%),
+        linear-gradient(180deg, #fafafa 0%, var(--bg) 28%);
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .wrap { width: min(1080px, calc(100% - 2.5rem)); margin-inline: auto; }
+    header {
+      position: sticky; top: 0; z-index: 20;
+      backdrop-filter: blur(12px);
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 0; font-family: var(--font-h);
+    }
+    .wordmark {
+      font-family: var(--font-h); font-weight: 700; font-size: 1.25rem;
+      letter-spacing: -0.03em; color: var(--text); text-decoration: none;
+    }
+    .wordmark:hover { text-decoration: none; color: var(--accent); }
+    .nav-links { display: flex; gap: 1.25rem; align-items: center; }
+    .nav-links a { color: var(--text-muted); font-size: 0.95rem; text-decoration: none; }
+    .nav-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-h); font-weight: 600; font-size: 0.95rem;
+      border-radius: var(--radius); padding: 0.7rem 1.15rem;
+      border: 1px solid transparent; cursor: pointer;
+      transition: transform 200ms var(--ease), background 200ms var(--ease);
+    }
+    .btn-primary { background: var(--accent); color: var(--accent-on); }
+    .btn-primary:hover { background: var(--accent-muted); transform: translateY(-1px); text-decoration: none; color: var(--accent-on); }
+    .btn-ghost { background: transparent; color: var(--text); border-color: var(--border); }
+    .btn-ghost:hover { border-color: var(--accent); text-decoration: none; }
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: flex; align-items: center;
+      padding: 3rem 0 4rem;
+    }
+    .hero-inner { max-width: 40rem; }
+    .hero .wordmark-hero {
+      font-family: var(--font-h); font-weight: 700;
+      font-size: clamp(2.6rem, 7vw, 4.2rem);
+      letter-spacing: -0.04em; line-height: 1; margin: 0 0 1rem;
+      color: var(--text);
+      animation: rise 700ms var(--ease) both;
+    }
+    .hero h1 {
+      font-family: var(--font-h); font-weight: 600;
+      font-size: clamp(1.35rem, 2.8vw, 1.85rem);
+      letter-spacing: -0.02em; line-height: 1.25;
+      margin: 0 0 0.85rem; color: var(--text);
+      animation: rise 700ms var(--ease) 80ms both;
+    }
+    .hero p {
+      margin: 0 0 1.75rem; color: var(--text-muted);
+      font-size: 1.08rem; max-width: 36ch;
+      animation: rise 700ms var(--ease) 140ms both;
+    }
+    .waitlist {
+      display: flex; flex-wrap: wrap; gap: 0.6rem;
+      animation: rise 700ms var(--ease) 200ms both;
+    }
+    .waitlist input[type="email"] {
+      flex: 1 1 220px; min-width: 200px;
+      font-family: var(--font-h); font-size: 1rem;
+      padding: 0.75rem 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    }
+    .waitlist input:focus {
+      outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
+      border-color: var(--accent);
+    }
+    .waitlist-note { margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-muted); min-height: 1.2em; }
+    .waitlist-note.ok { color: var(--accent); }
+    .modules {
+      padding: var(--space-2xl) 0;
+      background: var(--bg-muted);
+      border-block: 1px solid var(--border);
+    }
+    .modules h2, .blog h2, .cta h2 {
+      font-family: var(--font-h); font-weight: 650;
+      font-size: clamp(1.5rem, 2.4vw, 2rem);
+      letter-spacing: -0.02em; margin: 0 0 0.5rem;
+    }
+    .lede { color: var(--text-muted); margin: 0 0 1.75rem; max-width: 52ch; }
+    .module-list {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+    }
+    .module-list li {
+      font-family: var(--font-h);
+      padding: 1rem 0;
+      border-top: 1px solid var(--border);
+    }
+    .module-list strong { display: block; font-size: 1.05rem; margin-bottom: 0.25rem; }
+    .module-list span { color: var(--text-muted); font-family: var(--font-b); font-size: 0.95rem; }
+    .blog { padding: var(--space-2xl) 0; }
+    .posts { display: grid; gap: 1.25rem; }
+    .post {
+      display: block; padding: 1.25rem 0;
+      border-top: 1px solid var(--border);
+      color: inherit; text-decoration: none;
+      transition: padding-left 280ms var(--ease);
+    }
+    .post:hover { padding-left: 0.5rem; text-decoration: none; }
+    .post time { font-family: var(--font-h); font-size: 0.82rem; color: var(--text-muted); }
+    .post h3 {
+      font-family: var(--font-h); font-size: 1.2rem; margin: 0.35rem 0;
+      letter-spacing: -0.02em;
+    }
+    .post p { margin: 0; color: var(--text-muted); }
+    .cta {
+      padding: var(--space-2xl) 0 calc(var(--space-2xl) + 1rem);
+      background:
+        linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, var(--bg-muted)), var(--bg-muted));
+    }
+    footer {
+      padding: 2rem 0 2.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted); font-size: 0.92rem;
+      font-family: var(--font-h);
+    }
+    footer .wrap { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      html { scroll-behavior: auto; }
+    }
+    @media (max-width: 640px) {
+      .nav-links a:not(.btn) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap nav">
+      <a class="wordmark" href="/">klaut.pro</a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#module">Module</a>
+        <a href="#blog">Blog</a>
+        <a class="btn btn-primary" href="#waitlist">Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="waitlist">
+      <div class="wrap hero-inner">
+        <p class="wordmark-hero">klaut.pro</p>
+        <h1>Google Workspace für Agenten</h1>
+        <p>Die agentic AI service layer: Mail, Secrets, Books, Search, Database, Storage und Literature in einer Plattform.</p>
+        <form class="waitlist" id="waitlist-form" novalidate>
+          <label class="visually-hidden" for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">E-Mail</label>
+          <input id="email" name="email" type="email" required placeholder="you@company.com" autocomplete="email" />
+          <button class="btn btn-primary" type="submit">Auf die Waitlist</button>
+        </form>
+        <p class="waitlist-note" id="waitlist-msg" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="modules" id="module">
+      <div class="wrap">
+        <h2>Plattform-Module</h2>
+        <p class="lede">Gemeinsame Infrastruktur für autonome Agenten, statt einzeln zusammengesteckter Tools.</p>
+        <ul class="module-list">
+          <li><strong>Mail</strong><span>Agent-E-Mail mit Identity und Delivery</span></li>
+          <li><strong>Secrets</strong><span>Credentials und Vault für Non-Human Identities</span></li>
+          <li><strong>Books</strong><span>Bookkeeping für agentic Workflows</span></li>
+          <li><strong>Search</strong><span>Search als Service für Agent-Queries</span></li>
+          <li><strong>Database</strong><span>Managed Schemas für Agent-Workloads</span></li>
+          <li><strong>Storage</strong><span>Dauerhafte Dateien für Agent-Runs</span></li>
+          <li><strong>Literature</strong><span>Research und Quellenarbeit</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="blog" id="blog">
+      <div class="wrap">
+        <h2>Blog</h2>
+        <p class="lede">Notizen zu agentic infrastructure, governance und dem Aufbau der Service-Schicht.</p>
+        <div class="posts">
+          <a class="post" href="./blog/agent-workspace.html">
+            <time datetime="2026-07-20">20. Juli 2026</time>
+            <h3>Warum Agenten eine Workspace brauchen</h3>
+            <p>Isolierte Tools skalieren nicht. Eine gemeinsame Service-Schicht für Secrets, Storage und Search schon.</p>
+          </a>
+          <a class="post" href="./blog/non-human-identity.html">
+            <time datetime="2026-07-20">20. Juli 2026</time>
+            <h3>Non-Human Identities ernst nehmen</h3>
+            <p>Agenten sind keine User-Accounts. Credentials, Audit und Lifecycle brauchen eigene Infrastruktur.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap">
+        <h2>Early access</h2>
+        <p class="lede">Wir öffnen klaut.pro schrittweise. Trage dich ein, wenn du Agent-Infrastruktur baust.</p>
+        <a class="btn btn-primary" href="#waitlist">Zur Waitlist</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 klaut.pro</span>
+      <span>Agentic AI service layer</span>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById("waitlist-form");
+      var msg = document.getElementById("waitlist-msg");
+      if (!form) return;
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = (form.email.value || "").trim().toLowerCase();
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          msg.textContent = "Bitte eine gültige E-Mail eingeben.";
+          msg.className = "waitlist-note";
+          return;
+        }
+        try {
+          var key = "klaut_waitlist";
+          var list = JSON.parse(localStorage.getItem(key) || "[]");
+          if (list.indexOf(email) === -1) list.push(email);
+          localStorage.setItem(key, JSON.stringify(list));
+        } catch (_) {}
+        msg.textContent = "Danke. Du stehst auf der Waitlist.";
+        msg.className = "waitlist-note ok";
+        form.reset();
+      });
+    })();
+  </script>
+</body>
+</html>
