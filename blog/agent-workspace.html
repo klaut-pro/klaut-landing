@@ -3,30 +3,70 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Warum Agenten eine Workspace brauchen — klaut.pro</title>
+  <title>Der Flickenteppich skaliert nicht — klaut.pro</title>
+  <meta name="description" content="Warum Agent-Workloads eine gemeinsame Service-Schicht brauchen, bevor Governance unter Last bricht." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    :root { --bg:#fff; --text:#0a0a0a; --muted:#52525b; --accent:#6a2800; --border:#e4e4e7; --h:"IBM Plex Sans",system-ui,sans-serif; --b:"IBM Plex Serif",Georgia,serif; }
-    body { margin:0; font-family:var(--b); color:var(--text); background:var(--bg); line-height:1.65; }
-    .wrap { width:min(720px, calc(100% - 2.5rem)); margin:0 auto; padding:2rem 0 4rem; }
-    a { color:var(--accent); }
-    .wordmark { font-family:var(--h); font-weight:700; text-decoration:none; color:var(--text); }
-    time { color:var(--muted); font-family:var(--h); font-size:0.9rem; }
-    h1 { font-family:var(--h); font-size:clamp(1.8rem,4vw,2.4rem); letter-spacing:-0.03em; line-height:1.15; }
-    p { color:var(--text); }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./blog.css" />
 </head>
 <body>
-  <article class="wrap">
-    <p><a class="wordmark" href="../index.html">klaut.pro</a> · <a href="../index.html#blog">Blog</a></p>
-    <time datetime="2026-07-20">20. Juli 2026</time>
-    <h1>Warum Agenten eine Workspace brauchen</h1>
-    <p>Teams, die autonome Agenten betreiben, landen oft bei einem Flickenteppich: ein Vault hier, eine DB dort, Search und Mail als Einzellösungen. Das funktioniert für einen Prototyp. Unter Last und mit mehreren Agenten bricht die Governance.</p>
-    <p>klaut.pro denkt die Service-Schicht wie ein Workspace: Mail, Secrets, Books, Search, Database, Storage und Literature als Module unter einer Identität. Agenten bekommen durable Infrastruktur, Operatoren bekommen Audit und Lifecycle.</p>
-    <p>Der Punkt ist nicht „mehr AI“. Der Punkt ist gemeinsame Infrastruktur für Non-Human Identities, damit Workflows reproduzierbar und sicher bleiben.</p>
-    <p><a href="../index.html#waitlist">Zur Waitlist</a></p>
+  <div class="progress" id="progress" aria-hidden="true"></div>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <header id="site-header">
+    <div class="wrap nav">
+      <a class="wordmark" href="../index.html">klaut.pro</a>
+      <nav class="nav-links">
+        <a href="../index.html#blog">Blog</a>
+        <a class="btn" href="../index.html#waitlist">Waitlist</a>
+      </nav>
+    </div>
+  </header>
+
+  <article>
+    <header class="article-hero wrap">
+      <p class="meta reveal">
+        <a href="../index.html#blog">Blog</a>
+        <span aria-hidden="true">·</span>
+        <time datetime="2026-07-20">20. Juli 2026</time>
+        <span aria-hidden="true">·</span>
+        <span>6 Min.</span>
+      </p>
+      <h1 class="reveal" style="transition-delay:80ms">Der Flickenteppich skaliert nicht</h1>
+      <p class="deck reveal" style="transition-delay:140ms">Ein Vault hier, eine DB dort, Search als Einzellösung. Für den Prototyp reicht das. Für einen Schwarm in Produktion reicht es nie.</p>
+    </header>
+
+    <div class="wrap prose">
+      <p class="reveal">Teams, die autonome Agenten betreiben, sammeln Tools wie Souvenirs. Secrets in einem Vault-Produkt. Dateien in einem Object Store. Mail über einen Provider, der nie für Non-Human Identities gedacht war. Search daneben. Am Anfang fühlt sich das schnell an.</p>
+      <p class="reveal">Dann steigt die Last. Mehr Agenten, mehr Credentials, mehr Runs. Die erste Frage ist nicht mehr „Welches Modell?“. Die erste Frage ist: Wer darf was, und lässt sich das noch erklären?</p>
+
+      <blockquote class="pull reveal">
+        Governance bricht immer vor der Compute-Grenze.
+      </blockquote>
+
+      <h2 class="reveal">Was unter Last zuerst stirbt</h2>
+      <p class="reveal">Statische Keys in Env-Dateien. Manuelle Secrets-Rotation. Keine gemeinsame Identity zwischen Mail und Storage. Logs, die nicht zusammenpassen. Jedes Tool hat seine eigene Wahrheit. Operatoren verlieren den Überblick, bevor die Agenten „fertig“ sind.</p>
+      <p class="reveal">Das ist kein Feature-Problem. Es ist ein Schicht-Problem. Agenten brauchen dieselben Grundlagen wie Teams: Identity, Persistenz, Suche, Kommunikation. Nur ohne menschliche Passwort-Rituale.</p>
+
+      <h2 class="reveal">Die Workspace-Lesart</h2>
+      <p class="reveal">klaut.pro behandelt die Service-Schicht wie einen Workspace für Agenten. Mail, Secrets, Books, Search, Database, Storage und Literature als Module unter einer Identity. Agenten bekommen durable Infrastruktur. Operatoren bekommen Audit und Lifecycle.</p>
+      <p class="reveal">Du kaufst damit keine Magie. Du kaufst die Voraussetzung, dass Workflows reproduzierbar bleiben, wenn der Schwarm wächst.</p>
+
+      <aside class="note reveal">
+        <strong>Praktisch:</strong> Wenn fünf Agenten fünf Secrets-Stores brauchen, hast du keine Plattform. Du hast Schulden, die sich verzinsen.
+      </aside>
+
+      <h2 class="reveal">Was wir als Nächstes bauen</h2>
+      <p class="reveal">Early access öffnet die Schicht schrittweise. Wer Agent-Infrastruktur in Produktion plant, sollte früher in der Waitlist stehen als später im Incident-Channel.</p>
+    </div>
+
+    <footer class="article-footer wrap reveal">
+      <a class="btn" href="../index.html#waitlist">Early access sichern</a>
+      <a class="text-link" href="./non-human-identity.html">Weiter: Non-Human Identities →</a>
+    </footer>
   </article>
+
+  <script src="./blog.js"></script>
 </body>
 </html>
