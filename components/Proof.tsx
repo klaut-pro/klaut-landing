@@ -6,8 +6,8 @@ export function Proof() {
       <div className="wrap">
         <Reveal>
           <p className="proof-line">
-            Wenn fünf Agenten fünf Secrets-Stores brauchen, hast du keine
-            Plattform. Du hast Schulden.
+            If five agents need five secrets stores, you do not have a
+            platform. You have debt.
           </p>
         </Reveal>
       </div>

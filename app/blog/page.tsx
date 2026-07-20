@@ -9,7 +9,7 @@ import { posts } from "@/content/blog";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Kurze Texte zu Infrastruktur, Identity und dem Alltag mit Agenten-Schwärmen.",
+    "Short notes on infrastructure, identity, and day-to-day work with agent swarms.",
   alternates: { canonical: "https://klaut.pro/blog" },
 };
 
@@ -20,9 +20,9 @@ export default function BlogIndexPage() {
       <SiteHeader variant="blog" />
       <main className="blog-index">
         <div className="wrap">
-          <h1>Aus dem Betrieb</h1>
+          <h1>From the field</h1>
           <p className="section-lede">
-            Infrastruktur, Identity und der Alltag mit Agenten-Schwärmen.
+            Infrastructure, identity, and day-to-day work with agent swarms.
           </p>
           <div className="posts">
             {posts.map((post, i) => (

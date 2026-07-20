@@ -1,5 +1,6 @@
 /**
- * klaut.pro design tokens — Majico project 708a0dc5-7198-4fc5-9875-c45bc611d24a
+ * Direction A — editorial / serif-led calm infra
+ * klaut.pro tokens — Majico 708a0dc5-7198-4fc5-9875-c45bc611d24a
  * Accent #6a2800 · IBM Plex Sans / Serif · motion from DESIGN.md
  */
 
@@ -295,39 +296,61 @@ a:hover {
   max-width: 40rem;
 }
 
+/* Direction A — editorial / serif-led calm infra */
 .brand-hero {
   font-family: var(--klaut-font-heading);
   font-weight: 700;
-  font-size: clamp(3rem, 9vw, 5rem);
-  letter-spacing: -0.05em;
-  line-height: 0.92;
-  margin: 0 0 1.25rem;
+  font-size: clamp(3.2rem, 10vw, 5.5rem);
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+  margin: 0 0 1.75rem;
   color: var(--klaut-text);
   opacity: 0;
   transform: translateY(22px);
-  animation: klaut-rise 900ms var(--klaut-ease-expressive) 60ms forwards;
+  animation: klaut-rise 1100ms var(--klaut-ease-expressive) 60ms forwards;
 }
 
 .hero h1 {
-  font-family: var(--klaut-font-heading);
-  font-weight: 600;
-  font-size: clamp(1.55rem, 3.4vw, 2.05rem);
-  letter-spacing: -0.03em;
-  line-height: 1.2;
-  margin: 0 0 1rem;
+  font-family: var(--klaut-font-body);
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(1.65rem, 3.6vw, 2.25rem);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  margin: 0 0 1.15rem;
+  max-width: 18ch;
   opacity: 0;
   transform: translateY(18px);
-  animation: klaut-rise 900ms var(--klaut-ease-expressive) 160ms forwards;
+  animation: klaut-rise 1100ms var(--klaut-ease-expressive) 180ms forwards;
 }
 
 .hero .lede {
-  font-size: 1.15rem;
+  font-family: var(--klaut-font-body);
+  font-size: 1.2rem;
   color: var(--klaut-text-muted);
-  margin: 0 0 1.75rem;
-  max-width: 36ch;
+  margin: 0 0 2rem;
+  max-width: 38ch;
+  line-height: 1.6;
   opacity: 0;
   transform: translateY(16px);
-  animation: klaut-rise 900ms var(--klaut-ease-expressive) 260ms forwards;
+  animation: klaut-rise 1100ms var(--klaut-ease-expressive) 300ms forwards;
+}
+
+.hero {
+  padding: 5.5rem 0 6.5rem;
+}
+
+.proof-line {
+  font-family: var(--klaut-font-body);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.modules h2,
+.blog h2,
+.cta h2,
+.blog-index h1 {
+  font-weight: 600;
 }
 
 .waitlist {

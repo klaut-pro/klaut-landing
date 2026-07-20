@@ -2,7 +2,7 @@
 
 import { FormEvent, useState } from "react";
 
-const WAITLIST_API = "https://waitlist.klaut.pro/v1/signup";
+const WAITLIST_API = "/api/waitlist";
 
 export function WaitlistForm() {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "dup" | "err">(
@@ -24,7 +24,7 @@ export function WaitlistForm() {
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       setStatus("err");
-      setMessage("Bitte eine gültige Work-Email eingeben.");
+      setMessage("Enter a valid work email.");
       (form.email as HTMLInputElement).focus();
       return;
     }
@@ -38,7 +38,7 @@ export function WaitlistForm() {
           email,
           company: company || undefined,
           website: honey || undefined,
-          source: "landing",
+          source: "landing-v1",
         }),
       });
       const data = (await res.json().catch(() => null)) as {
@@ -48,27 +48,27 @@ export function WaitlistForm() {
 
       if (res.status === 429) {
         setStatus("err");
-        setMessage("Zu viele Versuche. Bitte später erneut.");
+        setMessage("Too many attempts. Try again later.");
         return;
       }
       if (!res.ok || !data?.ok) {
         setStatus("err");
-        setMessage("Signup fehlgeschlagen. Bitte erneut versuchen.");
+        setMessage("Signup failed. Please try again.");
         return;
       }
 
       if (data.duplicate) {
         setStatus("dup");
-        setMessage("Du stehst bereits auf der Liste.");
+        setMessage("You are already on the list.");
       } else {
         setStatus("ok");
-        setMessage("Gesichert. Wir melden uns mit Early Access.");
+        setMessage("Saved. We will reach out with early access.");
       }
       setPulse(true);
       form.reset();
     } catch {
       setStatus("err");
-      setMessage("Netzwerkfehler. Bitte Verbindung prüfen.");
+      setMessage("Network error. Check your connection.");
     }
   }
 
@@ -107,24 +107,24 @@ export function WaitlistForm() {
           type="submit"
           disabled={status === "loading"}
         >
-          {status === "loading" ? "Wird gesichert…" : "Early access sichern"}
+          {status === "loading" ? "Saving…" : "Join early access"}
         </button>
       </div>
       <div className="waitlist-row">
         <label htmlFor="company" className="sr-only">
-          Firma
+          Company
         </label>
         <input
           id="company"
           name="company"
           type="text"
-          placeholder="Firma (optional)"
+          placeholder="Company (optional)"
           autoComplete="organization"
         />
       </div>
       <p className="trust">
-        Für Teams, die Agenten in Produktion fahren. Wir melden uns mit Zugang,
-        nicht mit Newsletter-Noise.
+        For teams running agents in production. We reply with access, not
+        newsletter noise.
       </p>
       <p className={noteClass} role="status" aria-live="polite">
         {message}

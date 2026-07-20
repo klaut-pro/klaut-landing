@@ -6,10 +6,10 @@ export function BlogTeasers() {
   return (
     <section className="blog" id="blog">
       <div className="wrap">
-        <h2>Aus dem Betrieb</h2>
+        <h2>From the field</h2>
         <p className="section-lede">
-          Kurze Texte zu Infrastruktur, Identity und dem Alltag mit
-          Agenten-Schwärmen.
+          Short notes on infrastructure, identity, and day-to-day work with
+          agent swarms.
         </p>
         <div className="posts">
           {posts.map((post, i) => (

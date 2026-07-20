@@ -1,23 +1,23 @@
 import { Reveal } from "@/components/motion/Reveal";
 
 const MODULES = [
-  { name: "Mail", desc: "Zustellung und Identity für Agent-Kommunikation" },
-  { name: "Secrets", desc: "Rotation, Scope und Audit für Credentials" },
-  { name: "Books", desc: "Bookkeeping entlang agentic Workflows" },
-  { name: "Search", desc: "Search als Service für Agent-Queries" },
-  { name: "Database", desc: "Schemas und Isolation für Agent-State" },
-  { name: "Storage", desc: "Dauerhafte Artefakte über Runs hinweg" },
-  { name: "Literature", desc: "Research mit nachvollziehbaren Quellen" },
+  { name: "Mail", desc: "Delivery and identity for agent communication" },
+  { name: "Secrets", desc: "Rotation, scope, and audit for credentials" },
+  { name: "Books", desc: "Bookkeeping along agentic workflows" },
+  { name: "Search", desc: "Search as a service for agent queries" },
+  { name: "Database", desc: "Schemas and isolation for agent state" },
+  { name: "Storage", desc: "Durable artifacts across runs" },
+  { name: "Literature", desc: "Research with traceable sources" },
 ] as const;
 
 export function Modules() {
   return (
     <section className="modules" id="module">
       <div className="wrap">
-        <h2>Sieben Module. Ein Workspace.</h2>
+        <h2>Seven modules. One workspace.</h2>
         <p className="section-lede">
-          Alles, was autonome Systeme dauerhaft brauchen, unter einer
-          Governance-Schicht.
+          Everything autonomous systems need to persist, under one governance
+          layer.
         </p>
         <ul className="module-list">
           {MODULES.map((mod, i) => (

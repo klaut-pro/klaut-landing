@@ -20,121 +20,121 @@ export type BlogPost = {
 export const posts: BlogPost[] = [
   {
     slug: "agent-workspace",
-    title: "Der Flickenteppich skaliert nicht",
+    title: "Patchwork does not scale",
     teaser:
-      "Ein Vault hier, eine DB dort, Search als Einzellösung. Unter Last bricht die Governance zuerst.",
-    deck: "Ein Vault hier, eine DB dort, Search als Einzellösung. Für den Prototyp reicht das. Für einen Schwarm in Produktion reicht es nie.",
+      "A vault here, a database there, search as a one-off. Under load, governance fails first.",
+    deck: "A vault here, a database there, search as a one-off. Fine for a prototype. Never enough for a swarm in production.",
     date: "2026-07-20",
-    dateLabel: "20. Juli 2026",
+    dateLabel: "July 20, 2026",
     readingMinutes: 6,
     nextSlug: "non-human-identity",
     blocks: [
       {
         type: "p",
-        text: "Teams, die autonome Agenten betreiben, sammeln Tools wie Souvenirs. Secrets in einem Vault-Produkt. Dateien in einem Object Store. Mail über einen Provider, der nie für Non-Human Identities gedacht war. Search daneben. Am Anfang fühlt sich das schnell an.",
+        text: "Teams running autonomous agents collect tools like souvenirs. Secrets in one vault product. Files in an object store. Mail through a provider never designed for non-human identities. Search beside it. At the start it feels fast.",
       },
       {
         type: "p",
-        text: "Dann steigt die Last. Mehr Agenten, mehr Credentials, mehr Runs. Die erste Frage ist nicht mehr „Welches Modell?“. Die erste Frage ist: Wer darf was, und lässt sich das noch erklären?",
+        text: "Then load rises. More agents, more credentials, more runs. The first question is no longer which model. The first question is who may do what, and can you still explain it.",
       },
       {
         type: "pull",
-        text: "Governance bricht immer vor der Compute-Grenze.",
+        text: "Governance always breaks before the compute ceiling.",
       },
       {
         type: "h2",
-        text: "Was unter Last zuerst stirbt",
+        text: "What dies first under load",
       },
       {
         type: "p",
-        text: "Statische Keys in Env-Dateien. Manuelle Secrets-Rotation. Keine gemeinsame Identity zwischen Mail und Storage. Logs, die nicht zusammenpassen. Jedes Tool hat seine eigene Wahrheit. Operatoren verlieren den Überblick, bevor die Agenten „fertig“ sind.",
+        text: "Static keys in env files. Manual secret rotation. No shared identity between mail and storage. Logs that do not line up. Each tool keeps its own truth. Operators lose the plot before the agents finish.",
       },
       {
         type: "p",
-        text: "Das ist kein Feature-Problem. Es ist ein Schicht-Problem. Agenten brauchen dieselben Grundlagen wie Teams: Identity, Persistenz, Suche, Kommunikation. Nur ohne menschliche Passwort-Rituale.",
+        text: "This is not a feature gap. It is a layer gap. Agents need the same foundations teams need: identity, persistence, search, communication. Without human password rituals.",
       },
       {
         type: "h2",
-        text: "Die Workspace-Lesart",
+        text: "The workspace reading",
       },
       {
         type: "p",
-        text: "klaut.pro behandelt die Service-Schicht wie einen Workspace für Agenten. Mail, Secrets, Books, Search, Database, Storage und Literature als Module unter einer Identity. Agenten bekommen durable Infrastruktur. Operatoren bekommen Audit und Lifecycle.",
+        text: "klaut.pro treats the service layer like a workspace for agents. Mail, Secrets, Books, Search, Database, Storage, and Literature as modules under one identity. Agents get durable infrastructure. Operators get audit and lifecycle.",
       },
       {
         type: "p",
-        text: "Du kaufst damit keine Magie. Du kaufst die Voraussetzung, dass Workflows reproduzierbar bleiben, wenn der Schwarm wächst.",
+        text: "You are not buying magic. You are buying the condition that workflows stay reproducible as the swarm grows.",
       },
       {
         type: "note",
-        label: "Praktisch:",
-        text: "Wenn fünf Agenten fünf Secrets-Stores brauchen, hast du keine Plattform. Du hast Schulden, die sich verzinsen.",
+        label: "In practice:",
+        text: "If five agents need five secrets stores, you do not have a platform. You have debt that compounds.",
       },
       {
         type: "h2",
-        text: "Was wir als Nächstes bauen",
+        text: "What we open next",
       },
       {
         type: "p",
-        text: "Early access öffnet die Schicht schrittweise. Wer Agent-Infrastruktur in Produktion plant, sollte früher in der Waitlist stehen als später im Incident-Channel.",
+        text: "Early access opens the layer in stages. If you are planning agent infrastructure for production, join the waitlist before you join the incident channel.",
       },
     ],
   },
   {
     slug: "non-human-identity",
-    title: "Non-Human Identities sind first-class",
+    title: "Non-human identities are first-class",
     teaser:
-      "Ein Agent ist kein User mit Passwort-Reset. Lifecycle, Scope und Audit gehören in die Plattform.",
-    deck: "Ein Agent ist kein Mensch mit Passwort-Reset. Credentials brauchen Rotation, Scope und Audit, sobald mehr als ein Run läuft.",
+      "An agent is not a user with a password reset. Lifecycle, scope, and audit belong in the platform.",
+    deck: "An agent is not a person with a password reset. Credentials need rotation, scope, and audit as soon as more than one run is live.",
     date: "2026-07-20",
-    dateLabel: "20. Juli 2026",
+    dateLabel: "July 20, 2026",
     readingMinutes: 5,
     prevSlug: "agent-workspace",
     blocks: [
       {
         type: "p",
-        text: "Die meisten Stacks behandeln Agenten wie temporäre Scripts. Ein Key, eine Env, ein Hoffnungswert. Das hält für Demos. In Produktion entstehen daraus stille Leaks, verwaiste Tokens und Incidents ohne klare Besitzverhältnisse.",
+        text: "Most stacks treat agents like temporary scripts. One key, one env, one hope. That holds for demos. In production it becomes silent leaks, orphaned tokens, and incidents with no clear owner.",
       },
       {
         type: "p",
-        text: "Non-Human Identities verdienen dieselbe Sorgfalt wie Service Accounts, nur mit höherer Kadenz. Agenten starten, stoppen, skalieren. Credentials müssen mitkommen, ohne in Chat-Logs zu landen.",
+        text: "Non-human identities deserve the same care as service accounts, at a higher cadence. Agents start, stop, and scale. Credentials must move with them without landing in chat logs.",
       },
       {
         type: "pull",
-        text: "Lifecycle ist das Feature. Das Token ist nur der Träger.",
+        text: "Lifecycle is the feature. The token is only the carrier.",
       },
       {
         type: "h2",
-        text: "Was „first-class“ konkret heißt",
+        text: "What first-class means in practice",
       },
       {
         type: "p",
-        text: "Dynamische Ausstellung statt ewig gültiger Keys. Scope, der an den Job gebunden ist. Audit, der Run und Identity verbindet. Isolation zwischen Tenants, auch wenn zehn Agenten parallel arbeiten.",
+        text: "Dynamic issuance instead of forever keys. Scope bound to the job. Audit that joins run and identity. Isolation between tenants even when ten agents work in parallel.",
       },
       {
         type: "p",
-        text: "Secrets als Plattform-Modul heißt: Agenten beziehen Tokens, Operatoren sehen Lifecycle, und Mail oder Database hängen an derselben Identity-Schicht. Eine Wahrheit, kein Abgleich über drei Tools.",
+        text: "Secrets as a platform module means agents fetch tokens, operators see lifecycle, and mail or database hang off the same identity layer. One truth, no reconciliation across three tools.",
       },
       {
         type: "h2",
-        text: "Warum Env-Dateien scheitern",
+        text: "Why env files fail",
       },
       {
         type: "p",
-        text: "Env-Dateien sind Snapshots. Agenten sind Prozesse. Sobald Rotation oder Widerruf nötig wird, bist du in manueller Arbeit. Manuelle Arbeit skaliert linear. Schwärme skalieren exponentiell.",
+        text: "Env files are snapshots. Agents are processes. The moment rotation or revocation is required, you are in manual work. Manual work scales linearly. Swarms scale exponentially.",
       },
       {
         type: "note",
-        label: "Operator-Check:",
-        text: "Kannst du in unter einer Minute sagen, welches Credential welcher Agent gestern um 14:12 genutzt hat? Wenn nicht, fehlt die Schicht.",
+        label: "Operator check:",
+        text: "Can you say in under a minute which credential which agent used yesterday at 14:12? If not, the layer is missing.",
       },
       {
         type: "h2",
-        text: "Die klaut.pro-Lesart",
+        text: "The klaut.pro reading",
       },
       {
         type: "p",
-        text: "Wir bauen die Service-Schicht so, dass Non-Human Identities von Anfang an mitgedacht sind. Secrets, Mail, Storage und der Rest teilen dieselbe Identity. Early access öffnet genau diese Grundlage.",
+        text: "We build the service layer so non-human identities are assumed from day one. Secrets, Mail, Storage, and the rest share the same identity. Early access opens exactly that foundation.",
       },
     ],
   },

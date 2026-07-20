@@ -11,7 +11,7 @@ const ibmPlexSans = IBM_Plex_Sans({
 
 const ibmPlexSerif = IBM_Plex_Serif({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
   style: ["normal", "italic"],
   variable: "--font-ibm-plex-serif",
   display: "swap",
@@ -20,18 +20,18 @@ const ibmPlexSerif = IBM_Plex_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL("https://klaut.pro"),
   title: {
-    default: "klaut.pro — Die Service-Schicht für autonome Agenten",
+    default: "klaut.pro — The service layer for autonomous agents",
     template: "%s — klaut.pro",
   },
   description:
-    "klaut.pro gibt Agenten Mail, Secrets, Books, Search, Database, Storage und Literature unter einer Identity. Early access Waitlist.",
+    "klaut.pro gives agents Mail, Secrets, Books, Search, Database, Storage, and Literature under one identity. Early access waitlist.",
   openGraph: {
-    title: "klaut.pro — Die Service-Schicht für autonome Agenten",
+    title: "klaut.pro — The service layer for autonomous agents",
     description:
-      "Mail, Secrets, Books, Search, Database, Storage und Literature unter einer Identity. Gebaut für Schwärme in Produktion.",
+      "Mail, Secrets, Books, Search, Database, Storage, and Literature under one identity. Built for swarms in production.",
     url: "https://klaut.pro",
     siteName: "klaut.pro",
-    locale: "de_DE",
+    locale: "en_US",
     type: "website",
   },
   alternates: {
@@ -45,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="de">
+    <html lang="en">
       <body className={`${ibmPlexSans.variable} ${ibmPlexSerif.variable}`}>
         {children}
       </body>

@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               <span aria-hidden="true">·</span>
               <time dateTime={post.date}>{post.dateLabel}</time>
               <span aria-hidden="true">·</span>
-              <span>{post.readingMinutes} Min.</span>
+              <span>{post.readingMinutes} min read</span>
             </p>
           </Reveal>
           <Reveal delayMs={80}>
@@ -102,11 +102,11 @@ export default async function BlogPostPage({ params }: PageProps) {
 
         <footer className="article-footer wrap-narrow">
           <Link className="btn btn-primary" href="/#waitlist">
-            Early access sichern
+            Join early access
           </Link>
           {next ? (
             <Link className="text-link" href={`/blog/${next.slug}`}>
-              Weiter: {next.title} →
+              Next: {next.title} →
             </Link>
           ) : null}
           {prev ? (

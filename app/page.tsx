@@ -18,12 +18,12 @@ export default function HomePage() {
         <BlogTeasers />
         <section className="cta" id="cta">
           <div className="wrap">
-            <h2>Bau die Schicht, bevor der Schwarm wächst.</h2>
+            <h2>Build the layer before the swarm grows.</h2>
             <p className="section-lede">
-              Early access öffnet schrittweise. Eine Work-Email reicht.
+              Early access opens in stages. A work email is enough.
             </p>
             <a className="btn btn-primary" href="#waitlist">
-              Zur Waitlist
+              Join the waitlist
             </a>
           </div>
         </section>

@@ -26,7 +26,7 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
         <nav className="nav-links" aria-label="Primary">
           {variant === "home" ? (
             <>
-              <a href="#module">Module</a>
+              <a href="#module">Modules</a>
               <a href="#blog">Blog</a>
               <a className="btn btn-primary" href="#waitlist">
                 Waitlist
