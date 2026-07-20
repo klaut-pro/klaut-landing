@@ -1,0 +1,15 @@
+# klaut.pro landing — attach to cloud-pro network; routed via Caddy
+services:
+  klaut-landing:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    image: klaut-landing:1
+    restart: unless-stopped
+    networks:
+      - cloud_net
+
+networks:
+  cloud_net:
+    external: true
+    name: cloud-pro
