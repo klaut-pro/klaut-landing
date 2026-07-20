@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>klaut.pro — Agentic AI service layer</title>
-  <meta name="description" content="klaut.pro ist die Service-Schicht für autonome Agenten: Mail, Secrets, Books, Search, Database, Storage und Literature." />
+  <title>klaut.pro — Google Workspace für Agenten</title>
+  <meta name="description" content="Shared infrastructure for autonomous agents: Mail, Secrets, Books, Search, Database, Storage, Literature. Join the waitlist." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;500&display=swap" rel="stylesheet" />
@@ -20,7 +20,6 @@
       --border: #e4e4e7;
       --font-h: "IBM Plex Sans", system-ui, sans-serif;
       --font-b: "IBM Plex Serif", Georgia, serif;
-      --space-xl: 40px;
       --space-2xl: 56px;
       --radius: 8px;
       --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -34,9 +33,8 @@
       font-family: var(--font-b);
       line-height: 1.55;
       background-image:
-        radial-gradient(ellipse 80% 50% at 10% -10%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 55%),
-        radial-gradient(ellipse 60% 40% at 100% 0%, color-mix(in srgb, var(--accent) 6%, transparent), transparent 50%),
-        linear-gradient(180deg, #fafafa 0%, var(--bg) 28%);
+        radial-gradient(ellipse 80% 50% at 10% -10%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%),
+        linear-gradient(180deg, #fafafa 0%, var(--bg) 32%);
     }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
@@ -62,55 +60,66 @@
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
       font-family: var(--font-h); font-weight: 600; font-size: 0.95rem;
-      border-radius: var(--radius); padding: 0.7rem 1.15rem;
+      border-radius: var(--radius); padding: 0.75rem 1.2rem;
       border: 1px solid transparent; cursor: pointer;
-      transition: transform 200ms var(--ease), background 200ms var(--ease);
+      transition: transform 200ms var(--ease), background 200ms var(--ease), opacity 160ms ease;
     }
+    .btn:disabled { opacity: 0.65; cursor: wait; transform: none; }
     .btn-primary { background: var(--accent); color: var(--accent-on); }
-    .btn-primary:hover { background: var(--accent-muted); transform: translateY(-1px); text-decoration: none; color: var(--accent-on); }
-    .btn-ghost { background: transparent; color: var(--text); border-color: var(--border); }
-    .btn-ghost:hover { border-color: var(--accent); text-decoration: none; }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-muted); transform: translateY(-1px); text-decoration: none; color: var(--accent-on); }
     .hero {
       min-height: calc(100vh - 72px);
       display: flex; align-items: center;
       padding: 3rem 0 4rem;
     }
-    .hero-inner { max-width: 40rem; }
-    .hero .wordmark-hero {
+    .hero-inner { max-width: 38rem; }
+    .brand-hero {
       font-family: var(--font-h); font-weight: 700;
-      font-size: clamp(2.6rem, 7vw, 4.2rem);
-      letter-spacing: -0.04em; line-height: 1; margin: 0 0 1rem;
+      font-size: clamp(2.8rem, 8vw, 4.4rem);
+      letter-spacing: -0.045em; line-height: 0.95; margin: 0 0 1.1rem;
       color: var(--text);
       animation: rise 700ms var(--ease) both;
     }
     .hero h1 {
       font-family: var(--font-h); font-weight: 600;
-      font-size: clamp(1.35rem, 2.8vw, 1.85rem);
-      letter-spacing: -0.02em; line-height: 1.25;
-      margin: 0 0 0.85rem; color: var(--text);
-      animation: rise 700ms var(--ease) 80ms both;
+      font-size: clamp(1.25rem, 2.6vw, 1.7rem);
+      letter-spacing: -0.02em; line-height: 1.3;
+      margin: 0 0 0.75rem; color: var(--text);
+      animation: rise 700ms var(--ease) 70ms both;
     }
-    .hero p {
-      margin: 0 0 1.75rem; color: var(--text-muted);
-      font-size: 1.08rem; max-width: 36ch;
-      animation: rise 700ms var(--ease) 140ms both;
+    .hero .lede {
+      margin: 0 0 1.5rem; color: var(--text-muted);
+      font-size: 1.05rem; max-width: 34ch;
+      animation: rise 700ms var(--ease) 130ms both;
     }
     .waitlist {
-      display: flex; flex-wrap: wrap; gap: 0.6rem;
-      animation: rise 700ms var(--ease) 200ms both;
+      display: grid; gap: 0.65rem;
+      animation: rise 700ms var(--ease) 190ms both;
+      max-width: 28rem;
     }
-    .waitlist input[type="email"] {
-      flex: 1 1 220px; min-width: 200px;
+    .waitlist-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .waitlist input[type="email"],
+    .waitlist input[type="text"] {
+      flex: 1 1 160px;
       font-family: var(--font-h); font-size: 1rem;
       padding: 0.75rem 1rem; border-radius: var(--radius);
       border: 1px solid var(--border); background: var(--bg); color: var(--text);
     }
+    .waitlist input[type="email"] { flex: 1 1 220px; min-width: 200px; }
     .waitlist input:focus {
       outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
       border-color: var(--accent);
     }
-    .waitlist-note { margin-top: 0.75rem; font-size: 0.9rem; color: var(--text-muted); min-height: 1.2em; }
-    .waitlist-note.ok { color: var(--accent); }
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    .trust {
+      margin: 0.35rem 0 0;
+      font-family: var(--font-h);
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .waitlist-note { margin: 0.35rem 0 0; font-size: 0.92rem; color: var(--text-muted); min-height: 1.2em; }
+    .waitlist-note.ok { color: var(--accent); font-weight: 600; }
+    .waitlist-note.err { color: #9f1239; }
     .modules {
       padding: var(--space-2xl) 0;
       background: var(--bg-muted);
@@ -121,7 +130,7 @@
       font-size: clamp(1.5rem, 2.4vw, 2rem);
       letter-spacing: -0.02em; margin: 0 0 0.5rem;
     }
-    .lede { color: var(--text-muted); margin: 0 0 1.75rem; max-width: 52ch; }
+    .section-lede { color: var(--text-muted); margin: 0 0 1.75rem; max-width: 48ch; }
     .module-list {
       list-style: none; margin: 0; padding: 0;
       display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
@@ -150,9 +159,9 @@
     .post p { margin: 0; color: var(--text-muted); }
     .cta {
       padding: var(--space-2xl) 0 calc(var(--space-2xl) + 1rem);
-      background:
-        linear-gradient(135deg, color-mix(in srgb, var(--accent) 8%, var(--bg-muted)), var(--bg-muted));
+      background: color-mix(in srgb, var(--accent) 6%, var(--bg-muted));
     }
+    .cta .waitlist { margin-top: 1rem; }
     footer {
       padding: 2rem 0 2.5rem;
       border-top: 1px solid var(--border);
@@ -188,25 +197,33 @@
   <main>
     <section class="hero" id="waitlist">
       <div class="wrap hero-inner">
-        <p class="wordmark-hero">klaut.pro</p>
-        <h1>Google Workspace für Agenten</h1>
-        <p>Die agentic AI service layer: Mail, Secrets, Books, Search, Database, Storage und Literature in einer Plattform.</p>
+        <p class="brand-hero">klaut.pro</p>
+        <h1>Eine Service-Schicht für autonome Agenten</h1>
+        <p class="lede">Mail, Secrets, Books, Search, Database, Storage und Literature unter einer Identity, statt einzeln zusammengesteckter Tools.</p>
         <form class="waitlist" id="waitlist-form" novalidate>
-          <label class="visually-hidden" for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">E-Mail</label>
-          <input id="email" name="email" type="email" required placeholder="you@company.com" autocomplete="email" />
-          <button class="btn btn-primary" type="submit">Auf die Waitlist</button>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <div class="waitlist-row">
+            <label class="visually-hidden" for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Work email</label>
+            <input id="email" name="email" type="email" required placeholder="you@company.com" autocomplete="email" inputmode="email" />
+            <button class="btn btn-primary" type="submit" id="waitlist-submit">Auf die Waitlist</button>
+          </div>
+          <div class="waitlist-row">
+            <label class="visually-hidden" for="company" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Company</label>
+            <input id="company" name="company" type="text" placeholder="Firma (optional)" autocomplete="organization" />
+          </div>
+          <p class="trust">Early access für Teams, die Agent-Infrastruktur betreiben. Kein Spam.</p>
+          <p class="waitlist-note" id="waitlist-msg" role="status" aria-live="polite"></p>
         </form>
-        <p class="waitlist-note" id="waitlist-msg" role="status" aria-live="polite"></p>
       </div>
     </section>
 
     <section class="modules" id="module">
       <div class="wrap">
-        <h2>Plattform-Module</h2>
-        <p class="lede">Gemeinsame Infrastruktur für autonome Agenten, statt einzeln zusammengesteckter Tools.</p>
+        <h2>Was du bekommst</h2>
+        <p class="section-lede">Gemeinsame Infrastruktur für Non-Human Identities: Credentials, Daten und Tools in einem Workspace.</p>
         <ul class="module-list">
           <li><strong>Mail</strong><span>Agent-E-Mail mit Identity und Delivery</span></li>
-          <li><strong>Secrets</strong><span>Credentials und Vault für Non-Human Identities</span></li>
+          <li><strong>Secrets</strong><span>Vault und Rotation für Agent-Credentials</span></li>
           <li><strong>Books</strong><span>Bookkeeping für agentic Workflows</span></li>
           <li><strong>Search</strong><span>Search als Service für Agent-Queries</span></li>
           <li><strong>Database</strong><span>Managed Schemas für Agent-Workloads</span></li>
@@ -219,27 +236,27 @@
     <section class="blog" id="blog">
       <div class="wrap">
         <h2>Blog</h2>
-        <p class="lede">Notizen zu agentic infrastructure, governance und dem Aufbau der Service-Schicht.</p>
+        <p class="section-lede">Kurz: warum Agenten eine Workspace brauchen, und wie Non-Human Identities anders sind.</p>
         <div class="posts">
           <a class="post" href="./blog/agent-workspace.html">
             <time datetime="2026-07-20">20. Juli 2026</time>
             <h3>Warum Agenten eine Workspace brauchen</h3>
-            <p>Isolierte Tools skalieren nicht. Eine gemeinsame Service-Schicht für Secrets, Storage und Search schon.</p>
+            <p>Isolierte Tools skalieren nicht. Eine gemeinsame Service-Schicht schon.</p>
           </a>
           <a class="post" href="./blog/non-human-identity.html">
             <time datetime="2026-07-20">20. Juli 2026</time>
             <h3>Non-Human Identities ernst nehmen</h3>
-            <p>Agenten sind keine User-Accounts. Credentials, Audit und Lifecycle brauchen eigene Infrastruktur.</p>
+            <p>Credentials, Audit und Lifecycle gehören in die Plattform, nicht in Env-Dateien.</p>
           </a>
         </div>
       </div>
     </section>
 
-    <section class="cta">
+    <section class="cta" id="cta">
       <div class="wrap">
-        <h2>Early access</h2>
-        <p class="lede">Wir öffnen klaut.pro schrittweise. Trage dich ein, wenn du Agent-Infrastruktur baust.</p>
-        <a class="btn btn-primary" href="#waitlist">Zur Waitlist</a>
+        <h2>Early access sichern</h2>
+        <p class="section-lede">Wir öffnen schrittweise. Eine Work-Email reicht.</p>
+        <a class="btn btn-primary" href="#waitlist">Zurück zur Waitlist</a>
       </div>
     </section>
   </main>
@@ -253,26 +270,74 @@
 
   <script>
     (function () {
+      var API = "https://waitlist.klaut.pro/v1/signup";
       var form = document.getElementById("waitlist-form");
       var msg = document.getElementById("waitlist-msg");
+      var btn = document.getElementById("waitlist-submit");
       if (!form) return;
+
       form.addEventListener("submit", function (e) {
         e.preventDefault();
+        msg.textContent = "";
+        msg.className = "waitlist-note";
+
         var email = (form.email.value || "").trim().toLowerCase();
+        var company = (form.company && form.company.value || "").trim();
+        var honey = (form.website && form.website.value || "").trim();
+
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          msg.textContent = "Bitte eine gültige E-Mail eingeben.";
-          msg.className = "waitlist-note";
+          msg.textContent = "Bitte eine gültige Work-Email eingeben.";
+          msg.className = "waitlist-note err";
+          form.email.focus();
           return;
         }
-        try {
-          var key = "klaut_waitlist";
-          var list = JSON.parse(localStorage.getItem(key) || "[]");
-          if (list.indexOf(email) === -1) list.push(email);
-          localStorage.setItem(key, JSON.stringify(list));
-        } catch (_) {}
-        msg.textContent = "Danke. Du stehst auf der Waitlist.";
-        msg.className = "waitlist-note ok";
-        form.reset();
+
+        btn.disabled = true;
+        btn.textContent = "Wird gesendet…";
+
+        fetch(API, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: email,
+            company: company || undefined,
+            website: honey || undefined,
+            source: "landing"
+          })
+        })
+          .then(function (res) {
+            return res.json().then(function (data) {
+              return { ok: res.ok, status: res.status, data: data };
+            });
+          })
+          .then(function (result) {
+            if (result.status === 429) {
+              msg.textContent = "Zu viele Versuche. Bitte später erneut.";
+              msg.className = "waitlist-note err";
+              return;
+            }
+            if (!result.ok || !result.data || !result.data.ok) {
+              var err = (result.data && result.data.error) || "failed";
+              msg.textContent = err === "invalid_email"
+                ? "Bitte eine gültige Work-Email eingeben."
+                : "Signup fehlgeschlagen. Bitte erneut versuchen.";
+              msg.className = "waitlist-note err";
+              return;
+            }
+            msg.textContent = result.data.duplicate
+              ? "Du stehst bereits auf der Waitlist."
+              : "Danke. Du stehst auf der Waitlist.";
+            msg.className = "waitlist-note ok";
+            form.reset();
+          })
+          .catch(function () {
+            msg.textContent = "Netzwerkfehler. Bitte Verbindung prüfen und erneut versuchen.";
+            msg.className = "waitlist-note err";
+          })
+          .finally(function () {
+            btn.disabled = false;
+            btn.textContent = "Auf die Waitlist";
+          });
       });
     })();
   </script>
