@@ -12,9 +12,9 @@
   --klaut-accent-muted: #ff2ec7;
   --klaut-border: #1a2a44;
   --klaut-lime: #b8ff3d;
-  --klaut-font-display: var(--font-syne), "Arial Black", sans-serif;
-  --klaut-font-heading: var(--font-outfit), system-ui, sans-serif;
-  --klaut-font-body: var(--font-newsreader), Georgia, "Times New Roman", serif;
+  --klaut-font-display: var(--font-bricolage), "Arial Black", sans-serif;
+  --klaut-font-heading: var(--font-figtree), system-ui, sans-serif;
+  --klaut-font-body: var(--font-figtree), system-ui, sans-serif;
   --klaut-radius-sm: 4px;
   --klaut-radius-md: 8px;
   --klaut-radius-lg: 12px;
@@ -48,9 +48,8 @@ body {
   background: var(--klaut-bg);
   color: var(--klaut-text);
   font-family: var(--klaut-font-body);
-  font-optical-sizing: auto;
   font-size: 1.0625rem;
-  line-height: 1.65;
+  line-height: 1.62;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -320,9 +319,9 @@ a:hover {
   margin: 0 0 1.5rem;
   color: var(--klaut-text-muted);
   font-family: var(--klaut-font-body);
-  font-size: clamp(1.08rem, 2.1vw, 1.22rem);
+  font-size: clamp(1.05rem, 2vw, 1.18rem);
   font-weight: 400;
-  line-height: 1.7;
+  line-height: 1.65;
   max-width: 40ch;
 }
 
