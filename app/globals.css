@@ -12,9 +12,9 @@
   --klaut-accent-muted: #ff2ec7;
   --klaut-border: #1a2a44;
   --klaut-lime: #b8ff3d;
-  --klaut-font-display: var(--font-bricolage), "Arial Black", sans-serif;
-  --klaut-font-heading: var(--font-figtree), system-ui, sans-serif;
-  --klaut-font-body: var(--font-figtree), system-ui, sans-serif;
+  --klaut-font-display: var(--font-bricolage), ui-sans-serif, sans-serif;
+  --klaut-font-heading: var(--font-figtree), ui-sans-serif, sans-serif;
+  --klaut-font-body: var(--font-figtree), ui-sans-serif, sans-serif;
   --klaut-radius-sm: 4px;
   --klaut-radius-md: 8px;
   --klaut-radius-lg: 12px;

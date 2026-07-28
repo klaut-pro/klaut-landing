@@ -44,10 +44,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${bricolage.variable} ${figtree.variable}`}>
-        {children}
-      </body>
+    <html lang="en" className={`${bricolage.variable} ${figtree.variable}`}>
+      <body className={figtree.className}>{children}</body>
     </html>
   );
 }
