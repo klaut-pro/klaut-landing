@@ -6,14 +6,15 @@
   --klaut-bg: #04060f;
   --klaut-bg-muted: #0a1222;
   --klaut-text: #eef7ff;
-  --klaut-text-muted: #7d91ad;
+  --klaut-text-muted: #9bb0c9;
   --klaut-accent: #00e5ff;
   --klaut-accent-on: #031018;
   --klaut-accent-muted: #ff2ec7;
   --klaut-border: #1a2a44;
   --klaut-lime: #b8ff3d;
-  --klaut-font-heading: var(--font-space-grotesk), system-ui, sans-serif;
-  --klaut-font-body: var(--font-source-serif), Georgia, serif;
+  --klaut-font-display: var(--font-syne), "Arial Black", sans-serif;
+  --klaut-font-heading: var(--font-outfit), system-ui, sans-serif;
+  --klaut-font-body: var(--font-newsreader), Georgia, "Times New Roman", serif;
   --klaut-radius-sm: 4px;
   --klaut-radius-md: 8px;
   --klaut-radius-lg: 12px;
@@ -47,8 +48,12 @@ body {
   background: var(--klaut-bg);
   color: var(--klaut-text);
   font-family: var(--klaut-font-body);
-  line-height: 1.55;
+  font-optical-sizing: auto;
+  font-size: 1.0625rem;
+  line-height: 1.65;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 .sr-only {
@@ -113,10 +118,10 @@ a:hover {
 }
 
 .wordmark {
-  font-family: var(--klaut-font-heading);
+  font-family: var(--klaut-font-display);
   font-weight: 800;
-  font-size: 1.15rem;
-  letter-spacing: -0.04em;
+  font-size: 1.2rem;
+  letter-spacing: -0.03em;
   color: var(--klaut-text);
   text-decoration: none;
 }
@@ -281,12 +286,12 @@ a:hover {
 }
 
 .brand-hero {
-  font-family: var(--klaut-font-heading);
+  font-family: var(--klaut-font-display);
   font-weight: 800;
-  font-size: clamp(3rem, 9vw, 5.2rem);
-  letter-spacing: -0.055em;
-  line-height: 0.9;
-  margin: 0 0 1.1rem;
+  font-size: clamp(3.25rem, 10vw, 5.6rem);
+  letter-spacing: -0.05em;
+  line-height: 0.88;
+  margin: 0 0 1.15rem;
   background: linear-gradient(
     115deg,
     var(--klaut-accent) 0%,
@@ -302,20 +307,23 @@ a:hover {
 }
 
 .hero h1 {
-  font-family: var(--klaut-font-heading);
+  font-family: var(--klaut-font-display);
   font-weight: 700;
-  font-size: clamp(1.7rem, 3.8vw, 2.55rem);
-  letter-spacing: -0.045em;
-  line-height: 1.12;
-  margin: 0 0 0.85rem;
-  max-width: 16ch;
+  font-size: clamp(1.85rem, 4.2vw, 2.75rem);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  margin: 0 0 0.95rem;
+  max-width: 15ch;
 }
 
 .hero .lede {
   margin: 0 0 1.5rem;
   color: var(--klaut-text-muted);
-  font-size: 1.08rem;
-  max-width: 42ch;
+  font-family: var(--klaut-font-body);
+  font-size: clamp(1.08rem, 2.1vw, 1.22rem);
+  font-weight: 400;
+  line-height: 1.7;
+  max-width: 40ch;
 }
 
 .cta-group {
@@ -423,18 +431,20 @@ section {
 }
 
 .section-title {
-  font-family: var(--klaut-font-heading);
-  font-weight: 650;
-  font-size: clamp(1.55rem, 2.8vw, 2.2rem);
-  letter-spacing: -0.03em;
-  margin: 0 0 0.5rem;
-  line-height: 1.2;
+  font-family: var(--klaut-font-display);
+  font-weight: 700;
+  font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+  letter-spacing: -0.035em;
+  margin: 0 0 0.55rem;
+  line-height: 1.15;
 }
 
 .section-lede {
   color: var(--klaut-text-muted);
   margin: 0 0 var(--klaut-space-xl);
   max-width: 46ch;
+  font-size: 1.1rem;
+  line-height: 1.65;
 }
 
 .promise,
@@ -446,11 +456,11 @@ section {
 }
 
 .promise-line {
-  font-family: var(--klaut-font-heading);
+  font-family: var(--klaut-font-display);
   font-weight: 700;
-  font-size: clamp(1.45rem, 3vw, 2.15rem);
+  font-size: clamp(1.55rem, 3.2vw, 2.3rem);
   letter-spacing: -0.035em;
-  line-height: 1.18;
+  line-height: 1.15;
   max-width: 22ch;
   margin: 0 0 0.85rem;
 }
@@ -483,9 +493,9 @@ section {
 }
 
 .steps .n {
-  font-family: var(--klaut-font-heading);
+  font-family: var(--klaut-font-display);
   font-weight: 800;
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   letter-spacing: -0.04em;
   color: color-mix(in srgb, var(--klaut-accent) 70%, var(--klaut-text));
 }
@@ -579,9 +589,9 @@ section {
 }
 
 .blog h2 {
-  font-family: var(--klaut-font-heading);
+  font-family: var(--klaut-font-display);
   font-weight: 700;
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
   letter-spacing: -0.035em;
   margin: 0 0 0.65rem;
 }
