@@ -28,7 +28,7 @@ export function SiteHeader({ variant = "home" }: SiteHeaderProps) {
             <>
               <a href="#how">How it works</a>
               <a href="#tools">Tools</a>
-              <a href="#wish">Wish</a>
+              <Link href="/blog">Blog</Link>
               <a className="btn btn-primary" href="#waitlist">
                 Join waitlist
               </a>

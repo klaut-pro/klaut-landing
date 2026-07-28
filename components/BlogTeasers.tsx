@@ -1,17 +1,18 @@
 import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
-import { posts } from "@/content/blog";
+import { getLatestPosts } from "@/content/blog";
 
 export function BlogTeasers() {
+  const latest = getLatestPosts(3);
   return (
     <section className="blog" id="blog">
       <div className="wrap">
         <h2>From the field</h2>
         <p className="section-lede">
-          Short notes on MCP tools, agent login, and running agents in production.
+          How-tos, comparisons, and plain-language notes on MCP and agent tools.
         </p>
         <div className="posts">
-          {posts.map((post, i) => (
+          {latest.map((post, i) => (
             <Reveal key={post.slug} delayMs={i * 80}>
               <Link className="post" href={`/blog/${post.slug}`}>
                 <time dateTime={post.date}>{post.dateLabel}</time>
@@ -21,6 +22,11 @@ export function BlogTeasers() {
             </Reveal>
           ))}
         </div>
+        <p style={{ marginTop: "1.5rem" }}>
+          <Link className="text-link" href="/blog">
+            All posts
+          </Link>
+        </p>
       </div>
     </section>
   );

@@ -1,0 +1,443 @@
+/**
+ * Generates klaut.pro blog posts (plain English, no em dashes, no antithesis).
+ * Run: node content/blog/generate-posts.mjs
+ */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+/** @typedef {{ type: 'p'|'h2'|'pull'|'note', text?: string, label?: string }} Block */
+/** @typedef {{ slug: string, title: string, teaser: string, deck: string, date: string, dateLabel: string, readingMinutes: number, category: string, blocks: Block[] }} Post */
+
+/** @type {Post[]} */
+const raw = [
+  {
+    slug: "what-is-mcp",
+    title: "What is MCP?",
+    teaser: "Model Context Protocol in plain words: one way for agents to call tools.",
+    deck: "MCP is a standard for connecting AI agents to tools. One protocol. Many tools behind it.",
+    date: "2026-07-28",
+    dateLabel: "July 28, 2026",
+    readingMinutes: 5,
+    category: "explain",
+    blocks: [
+      { type: "p", text: "MCP stands for Model Context Protocol. It is a shared way for an agent runtime to discover tools, call them, and read results. Think of it as a plug shape for agent tools." },
+      { type: "p", text: "Without a shared protocol, every tool needs a custom client. With MCP, the agent speaks one language. The tools on the other side can still be different products." },
+      { type: "pull", text: "One protocol surface. Many tools behind it." },
+      { type: "h2", text: "What MCP is not" },
+      { type: "p", text: "MCP is not a model. It is not a prompt template. It is not a hosted app by itself. It is the wire format and lifecycle for tool use." },
+      { type: "h2", text: "Why teams care" },
+      { type: "p", text: "Agents need secrets, mail, search, storage, databases, research, and writing. Each used to ship as a one-off integration. MCP lets you keep one client and grow the tool list." },
+      { type: "note", label: "klaut angle:", text: "klaut.pro exposes shared agent tools over one MCP endpoint, with one login story and one token bill." },
+    ],
+  },
+  {
+    slug: "what-is-an-mcp-server",
+    title: "What is an MCP server?",
+    teaser: "The process that lists tools and runs them when an agent calls.",
+    deck: "An MCP server is the side that owns tools. The agent connects as a client and calls those tools over MCP.",
+    date: "2026-07-27",
+    dateLabel: "July 27, 2026",
+    readingMinutes: 5,
+    category: "explain",
+    blocks: [
+      { type: "p", text: "An MCP server advertises tools, accepts calls, and returns results. Your agent runtime is usually the client. The server can run on your laptop, in your cluster, or as a hosted endpoint." },
+      { type: "h2", text: "One server or many" },
+      { type: "p", text: "You can run a small MCP server per tool. That is fine for experiments. In production you often want fewer servers, clearer auth, and one place to see usage." },
+      { type: "pull", text: "Servers own tools. Clients own the agent loop." },
+      { type: "h2", text: "What operators ask" },
+      { type: "p", text: "Who can call this tool? Which key was used? How much did it cost? Those answers live next to the server, outside the model weights." },
+      { type: "note", label: "klaut angle:", text: "klaut runs shared tools as one MCP surface so you manage access and billing in one place." },
+    ],
+  },
+  {
+    slug: "mcp-client-vs-server",
+    title: "MCP client vs MCP server",
+    teaser: "Who calls, who runs the tool, and where auth belongs.",
+    deck: "Clients drive the agent. Servers expose tools. Mixing those roles creates messy auth and harder audit.",
+    date: "2026-07-26",
+    dateLabel: "July 26, 2026",
+    readingMinutes: 4,
+    category: "explain",
+    blocks: [
+      { type: "p", text: "The MCP client is usually your agent framework or IDE side. It lists tools, picks one, and sends a call. The MCP server receives that call and does the work." },
+      { type: "h2", text: "Where identity lives" },
+      { type: "p", text: "Put agent identity and tool scope on the path into the server. If every tool checks a different key format, operators spend their week reconciling logs." },
+      { type: "pull", text: "Keep the agent loop thin. Put policy next to the tools." },
+      { type: "h2", text: "Practical rule" },
+      { type: "p", text: "Prototype with local servers. Move shared tools (secrets, mail, search, storage, writing) onto a managed MCP surface before you scale the swarm." },
+    ],
+  },
+  {
+    slug: "how-to-connect-agent-to-mcp",
+    title: "How to connect an agent to MCP",
+    teaser: "A short path from runtime config to the first tool call.",
+    deck: "Point the agent at an MCP endpoint, authenticate, list tools, then call. Same loop every time.",
+    date: "2026-07-25",
+    dateLabel: "July 25, 2026",
+    readingMinutes: 6,
+    category: "howto",
+    blocks: [
+      { type: "p", text: "Most agent stacks need three things: an MCP URL, credentials for that URL, and a tool-calling loop that respects the protocol." },
+      { type: "h2", text: "1. Set the endpoint" },
+      { type: "p", text: "Configure your runtime with the MCP base URL. Keep it in config. Leave it out of prompt text." },
+      { type: "h2", text: "2. Authenticate the agent" },
+      { type: "p", text: "Use an agent-scoped credential. Prefer short-lived tokens with clear scope over a shared master key." },
+      { type: "h2", text: "3. List, then call" },
+      { type: "p", text: "List tools once at session start. Cache the catalog for the run. Call tools by name with structured arguments. Log the tool name, agent id, and result status." },
+      { type: "note", label: "Check:", text: "Can you replay which tool an agent called at a given minute? If not, add that log before you add more tools." },
+      { type: "h2", text: "4. Cap spend" },
+      { type: "p", text: "If your MCP surface meters usage, set a per-agent cap on day one. Caps are cheaper than surprise invoices." },
+    ],
+  },
+  {
+    slug: "how-to-scope-agent-secrets",
+    title: "How to scope secrets for agents",
+    teaser: "Give each agent the keys it needs, and only for as long as it needs them.",
+    deck: "Scoped secrets keep swarms useful without turning every run into a credential leak.",
+    date: "2026-07-24",
+    dateLabel: "July 24, 2026",
+    readingMinutes: 6,
+    category: "howto",
+    blocks: [
+      { type: "p", text: "Agents should fetch secrets at runtime. Do not bake long-lived keys into images or chat history." },
+      { type: "h2", text: "Scope by job" },
+      { type: "p", text: "Bind each credential to a task or role. A research agent does not need production payment keys. A mailer does not need database admin." },
+      { type: "h2", text: "Rotate on a schedule" },
+      { type: "p", text: "Set rotation before you need revocation. When an agent stops, revoke its tokens in the same workflow that stops the run." },
+      { type: "pull", text: "The secret is temporary. The audit trail stays." },
+      { type: "h2", text: "One secrets tool on MCP" },
+      { type: "p", text: "Expose secrets as an MCP tool so every agent uses the same path. Operators then see one lifecycle view across the swarm." },
+    ],
+  },
+  {
+    slug: "how-to-meter-agent-tool-usage",
+    title: "How to meter agent tool usage",
+    teaser: "See cost per tool and per agent before the bill surprises you.",
+    deck: "Metering turns tool calls into numbers you can cap, allocate, and explain.",
+    date: "2026-07-23",
+    dateLabel: "July 23, 2026",
+    readingMinutes: 5,
+    category: "howto",
+    blocks: [
+      { type: "p", text: "Every tool call should emit usage: which agent, which tool, how many units, and when. Without that, finance and engineering argue from different spreadsheets." },
+      { type: "h2", text: "Pick a unit" },
+      { type: "p", text: "Tokens, requests, or bytes can all work. Pick one primary unit for billing and keep secondary metrics for ops." },
+      { type: "h2", text: "Cap early" },
+      { type: "p", text: "Set hard caps per agent and soft alerts per team. Caps protect production when a loop goes wrong." },
+      { type: "note", label: "klaut angle:", text: "klaut meters MCP tool calls into one token balance so usage and billing share a single story." },
+    ],
+  },
+  {
+    slug: "unified-token-billing-explained",
+    title: "Unified token billing, explained",
+    teaser: "One balance for tool usage across an MCP control plane.",
+    deck: "Unified token billing means tool calls draw from one balance you can see and cap.",
+    date: "2026-07-22",
+    dateLabel: "July 22, 2026",
+    readingMinutes: 5,
+    category: "explain",
+    blocks: [
+      { type: "p", text: "When each tool has its own vendor bill, cost control splits across invoices. Unified token billing collapses usage into one balance tied to your MCP surface." },
+      { type: "h2", text: "What you gain" },
+      { type: "p", text: "One place to see spend by tool. One place to set agent caps. One conversation with finance." },
+      { type: "h2", text: "What stays separate" },
+      { type: "p", text: "Your own domain MCP servers can stay outside the meter. Shared platform tools (secrets, mail, search, storage, literature, writing) belong on the shared bill." },
+      { type: "pull", text: "One MCP. One token balance." },
+    ],
+  },
+  {
+    slug: "mcp-vs-rest-apis-for-agents",
+    title: "MCP vs REST APIs for agents",
+    teaser: "When a protocol catalog beats a pile of HTTP clients.",
+    deck: "REST still powers the web. Agents move faster when tools arrive as a protocol catalog they can list and call.",
+    date: "2026-07-21",
+    dateLabel: "July 21, 2026",
+    readingMinutes: 6,
+    category: "compare",
+    blocks: [
+      { type: "p", text: "REST APIs are excellent for product backends. Agents, though, need discovery, typed tool schemas, and a shared call loop. MCP is built for that loop." },
+      { type: "h2", text: "Where REST still wins" },
+      { type: "p", text: "Public product APIs, webhooks, and human dashboards. Keep REST there." },
+      { type: "h2", text: "Where MCP wins for agents" },
+      { type: "p", text: "Dynamic tool lists, one client library, and consistent auth across tools. The agent spends less time on glue and more time on the job." },
+      { type: "note", label: "Rule of thumb:", text: "Wrap the shared agent tools in MCP. Call niche vendor REST from a dedicated tool when you must." },
+    ],
+  },
+  {
+    slug: "openai-function-calling-vs-mcp",
+    title: "OpenAI function calling vs MCP",
+    teaser: "Model-native tools compared with a portable tool protocol.",
+    deck: "Function calling is great inside one model API. MCP aims to keep tools portable across runtimes.",
+    date: "2026-07-20",
+    dateLabel: "July 20, 2026",
+    readingMinutes: 6,
+    category: "compare",
+    blocks: [
+      { type: "p", text: "Function calling (and similar tool APIs) let a model request structured actions. That works well when you stay inside one provider SDK." },
+      { type: "h2", text: "Portability" },
+      { type: "p", text: "MCP separates the tool server from the model vendor. You can change models without rewriting every tool adapter." },
+      { type: "h2", text: "Operations" },
+      { type: "p", text: "A shared MCP control plane gives auth, audit, and metering that sit outside any single model bill." },
+      { type: "pull", text: "Use the model for reasoning. Use MCP for shared tools." },
+    ],
+  },
+  {
+    slug: "langchain-tools-vs-mcp",
+    title: "LangChain tools vs MCP",
+    teaser: "Framework tools compared with a protocol-level tool surface.",
+    deck: "LangChain tools are convenient in-process. MCP tools can live as a service boundary with shared ops.",
+    date: "2026-07-19",
+    dateLabel: "July 19, 2026",
+    readingMinutes: 6,
+    category: "compare",
+    blocks: [
+      { type: "p", text: "LangChain and similar frameworks ship tool abstractions that run close to your agent code. That is fast to start." },
+      { type: "h2", text: "When in-process tools are enough" },
+      { type: "p", text: "Single-team prototypes, local scripts, and tools that never leave your process." },
+      { type: "h2", text: "When MCP is the better boundary" },
+      { type: "p", text: "Multi-agent fleets, shared secrets, central metering, and tools reused by more than one runtime. MCP turns tools into a service you can manage." },
+      { type: "note", label: "Together:", text: "Many teams keep a framework for orchestration and call an MCP endpoint for platform tools." },
+    ],
+  },
+  {
+    slug: "zapier-vs-mcp-for-agents",
+    title: "Zapier vs MCP for agents",
+    teaser: "Automation for humans compared with a tool protocol for agents.",
+    deck: "Zapier connects apps for people and workflows. MCP connects tools for agent runtimes.",
+    date: "2026-07-18",
+    dateLabel: "July 18, 2026",
+    readingMinutes: 5,
+    category: "compare",
+    blocks: [
+      { type: "p", text: "Zapier-style automation shines when a human designs a zap and watches outcomes. Agents need machine-readable tool catalogs, tight auth, and high call volume." },
+      { type: "h2", text: "Different jobs" },
+      { type: "p", text: "Keep human automation for human processes. Give agents an MCP surface for secrets, mail, search, storage, and writing at runtime." },
+      { type: "pull", text: "Automations for people. Protocols for agents." },
+    ],
+  },
+  {
+    slug: "diy-mcp-servers-vs-klaut",
+    title: "DIY MCP servers vs klaut",
+    teaser: "When to keep custom servers and when to use a shared control plane.",
+    deck: "Build domain tools yourself. Put shared agent infrastructure on a managed MCP with one bill.",
+    date: "2026-07-17",
+    dateLabel: "July 17, 2026",
+    readingMinutes: 6,
+    category: "compare",
+    blocks: [
+      { type: "p", text: "You should keep MCP servers that encode your product domain. Nobody else knows your schemas as well as you do." },
+      { type: "h2", text: "What DIY costs" },
+      { type: "p", text: "Auth, rotation, metering, multi-tenant isolation, and on-call. Those costs show up after the demo works." },
+      { type: "h2", text: "What klaut takes" },
+      { type: "p", text: "Shared tools: secrets, mail, search, database, storage, literature, writing. One MCP endpoint, one login path, one token balance." },
+      { type: "note", label: "Split:", text: "Domain MCP stays yours. Platform MCP can be klaut." },
+    ],
+  },
+  {
+    slug: "agent-tooling-vs-saas-integrations",
+    title: "Agent tooling vs SaaS integrations",
+    teaser: "Integrations for products compared with tools built for autonomous runs.",
+    deck: "SaaS integrations assume a user session. Agent tooling assumes a non-human principal with scope and caps.",
+    date: "2026-07-16",
+    dateLabel: "July 16, 2026",
+    readingMinutes: 5,
+    category: "compare",
+    blocks: [
+      { type: "p", text: "OAuth for a human dashboard and a tool call from an overnight agent are different problems. Reusing the human path often drops audit and rotation on the floor." },
+      { type: "h2", text: "Design for the principal" },
+      { type: "p", text: "If the caller is an agent, give it an agent identity, a scoped key, and a meter. Do not borrow a user cookie." },
+      { type: "pull", text: "Match the integration to the caller." },
+    ],
+  },
+  {
+    slug: "non-human-identity",
+    title: "What is a non-human identity?",
+    teaser: "Agents need logins of their own, with rotation, scope, and logs.",
+    deck: "A non-human identity is a first-class login for an agent or service. It is separate from a borrowed user account.",
+    date: "2026-07-15",
+    dateLabel: "July 15, 2026",
+    readingMinutes: 5,
+    category: "explain",
+    blocks: [
+      { type: "p", text: "Non-human identities cover agents, jobs, and services. They start and stop often. Their credentials must move with that lifecycle." },
+      { type: "h2", text: "What good looks like" },
+      { type: "p", text: "Issuance on demand. Scope per job. Rotation on a clock. Revocation when the run ends. Logs that join identity to tool calls." },
+      { type: "note", label: "Operator check:", text: "Can you name which agent used which key yesterday at 14:12? If not, identity is still a gap." },
+      { type: "h2", text: "On klaut" },
+      { type: "p", text: "Agents get their own login path into the MCP tools. Secrets, mail, and the rest hang off that identity." },
+    ],
+  },
+  {
+    slug: "how-to-wish-for-an-mcp-tool",
+    title: "How to wish for an MCP tool",
+    teaser: "Ask for a missing tool without forking a new billing surface.",
+    deck: "Describe the tool, the use case, and who will call it. We route wishes into the same MCP and the same token bill.",
+    date: "2026-07-14",
+    dateLabel: "July 14, 2026",
+    readingMinutes: 4,
+    category: "howto",
+    blocks: [
+      { type: "p", text: "If your agents need a tool klaut does not ship yet, send a wish. Include the tool name, a short use case, and a work email." },
+      { type: "h2", text: "What helps us prioritize" },
+      { type: "p", text: "How often the agent would call it. Whether it needs secrets. Whether it is shared across teams. Whether a thin wrapper on an existing API is enough." },
+      { type: "note", label: "Promise:", text: "New tools land on the same MCP endpoint and the same token meter." },
+    ],
+  },
+  {
+    slug: "literature-and-writing-tools",
+    title: "Literature and Writing tools for agents",
+    teaser: "Research with sources, plus scientific reports and natural language polish.",
+    deck: "Literature finds and cites. Writing drafts reports and humanizes language over MCP.",
+    date: "2026-07-13",
+    dateLabel: "July 13, 2026",
+    readingMinutes: 5,
+    category: "explain",
+    blocks: [
+      { type: "p", text: "Agents that research need more than a raw web fetch. Literature tools return material with sources you can audit." },
+      { type: "p", text: "Writing tools help agents produce scientific reports and make text sound natural for human readers." },
+      { type: "h2", text: "Why they sit on MCP" },
+      { type: "p", text: "Both tools burn tokens and need access control. Putting them on the shared MCP surface keeps usage on one bill and one identity." },
+      { type: "pull", text: "Find with Literature. Shape with Writing." },
+    ],
+  },
+  {
+    slug: "agent-secrets-rotation-checklist",
+    title: "Agent secrets rotation checklist",
+    teaser: "A practical list before you scale the swarm.",
+    deck: "Use this checklist to keep agent credentials from becoming permanent fixtures.",
+    date: "2026-07-12",
+    dateLabel: "July 12, 2026",
+    readingMinutes: 4,
+    category: "howto",
+    blocks: [
+      { type: "p", text: "Print this next to your on-call notes." },
+      { type: "h2", text: "Checklist" },
+      { type: "p", text: "1. Every agent has its own credential. 2. Scope matches the job. 3. Rotation date is set. 4. Revocation runs when the agent stops. 5. Logs join agent id to secret id. 6. No secrets in prompts or tickets." },
+      { type: "note", label: "Fail:", text: "A shared production key in a group chat means the checklist is not done." },
+    ],
+  },
+  {
+    slug: "when-to-consolidate-mcp-servers",
+    title: "When to consolidate MCP servers",
+    teaser: "Signals that tool sprawl is costing you more than it saves.",
+    deck: "Consolidate shared tools when auth, audit, or billing starts to fragment.",
+    date: "2026-07-11",
+    dateLabel: "July 11, 2026",
+    readingMinutes: 5,
+    category: "explain",
+    blocks: [
+      { type: "p", text: "Many MCP servers are fine while each one is owned by one team and rarely shared. Pain starts when every agent needs five logins and finance sees five invoices." },
+      { type: "h2", text: "Signals" },
+      { type: "p", text: "Duplicate secret stores. Inconsistent audit formats. No per-agent caps. Onboarding a new agent takes days of key wrangling." },
+      { type: "h2", text: "What to consolidate first" },
+      { type: "p", text: "Secrets, mail, search, storage, literature, and writing. Keep unique domain servers separate." },
+      { type: "pull", text: "Consolidate the shared layer. Keep the domain edge." },
+    ],
+  },
+  {
+    slug: "patchwork-agent-stack",
+    title: "Why patchwork agent stacks fail",
+    teaser: "A vault here, a database there, search as a one-off. Governance breaks first.",
+    deck: "Fine for a prototype. Weak under a production swarm.",
+    date: "2026-07-10",
+    dateLabel: "July 10, 2026",
+    readingMinutes: 5,
+    category: "field",
+    blocks: [
+      { type: "p", text: "Teams collect tools like souvenirs. Secrets in one product. Files in another. Mail through a provider that never met a non-human identity." },
+      { type: "p", text: "Under load the first failure is governance. Who may do what, and can you still explain it." },
+      { type: "pull", text: "Governance breaks before the compute ceiling." },
+      { type: "h2", text: "The control plane reading" },
+      { type: "p", text: "klaut.pro puts shared agent tools on one MCP endpoint with one login path and one token bill. That is the condition for reproducible workflows as the swarm grows." },
+    ],
+  },
+];
+
+function esc(s) {
+  return s.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
+}
+
+function blockToTs(b) {
+  if (b.type === "note") {
+    return `    { type: "note", label: ${JSON.stringify(b.label)}, text: ${JSON.stringify(b.text)} }`;
+  }
+  return `    { type: ${JSON.stringify(b.type)}, text: ${JSON.stringify(b.text)} }`;
+}
+
+function postToTs(p) {
+  return `  {
+    slug: ${JSON.stringify(p.slug)},
+    title: ${JSON.stringify(p.title)},
+    teaser: ${JSON.stringify(p.teaser)},
+    deck: ${JSON.stringify(p.deck)},
+    date: ${JSON.stringify(p.date)},
+    dateLabel: ${JSON.stringify(p.dateLabel)},
+    readingMinutes: ${p.readingMinutes},
+    category: ${JSON.stringify(p.category)},
+    blocks: [
+${p.blocks.map(blockToTs).join(",\n")},
+    ],
+  }`;
+}
+
+// chronological oldest -> newest for prev/next
+const ordered = [...raw].sort((a, b) => a.date.localeCompare(b.date));
+for (let i = 0; i < ordered.length; i++) {
+  ordered[i].prevSlug = i > 0 ? ordered[i - 1].slug : undefined;
+  ordered[i].nextSlug = i < ordered.length - 1 ? ordered[i + 1].slug : undefined;
+}
+
+// index shows newest first
+const forIndex = [...ordered].sort((a, b) => b.date.localeCompare(a.date));
+
+const out = `import type { BlogPost } from "./types";
+
+export const postsData: BlogPost[] = [
+${forIndex
+  .map((p) => {
+    const withLinks = {
+      ...p,
+      prevSlug: ordered.find((x) => x.slug === p.slug)?.prevSlug,
+      nextSlug: ordered.find((x) => x.slug === p.slug)?.nextSlug,
+    };
+    let s = postToTs(withLinks);
+    if (withLinks.prevSlug) {
+      s = s.replace(
+        /category: "[^"]+",/,
+        (m) => `${m}\n    prevSlug: ${JSON.stringify(withLinks.prevSlug)},`,
+      );
+    }
+    if (withLinks.nextSlug) {
+      s = s.replace(
+        /category: "[^"]+",/,
+        (m) => `${m}\n    nextSlug: ${JSON.stringify(withLinks.nextSlug)},`,
+      );
+    }
+    // cleaner: rebuild
+    return `  {
+    slug: ${JSON.stringify(p.slug)},
+    title: ${JSON.stringify(p.title)},
+    teaser: ${JSON.stringify(p.teaser)},
+    deck: ${JSON.stringify(p.deck)},
+    date: ${JSON.stringify(p.date)},
+    dateLabel: ${JSON.stringify(p.dateLabel)},
+    readingMinutes: ${p.readingMinutes},
+    category: ${JSON.stringify(p.category)},${
+      withLinks.prevSlug ? `\n    prevSlug: ${JSON.stringify(withLinks.prevSlug)},` : ""
+    }${
+      withLinks.nextSlug ? `\n    nextSlug: ${JSON.stringify(withLinks.nextSlug)},` : ""
+    }
+    blocks: [
+${p.blocks.map(blockToTs).join(",\n")},
+    ],
+  }`;
+  })
+  .join(",\n")}
+];
+`;
+
+fs.writeFileSync(path.join(__dirname, "posts-data.ts"), out);
+console.log(`wrote ${forIndex.length} posts`);

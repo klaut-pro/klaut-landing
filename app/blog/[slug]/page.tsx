@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Atmosphere } from "@/components/motion/Atmosphere";
 import { ReadingProgress } from "@/components/motion/ReadingProgress";
 import { Reveal } from "@/components/motion/Reveal";
 import { SiteHeader } from "@/components/SiteHeader";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getAllSlugs, getPost } from "@/content/blog";
 
 type PageProps = {
@@ -45,7 +45,6 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <>
       <ReadingProgress />
-      <Atmosphere />
       <SiteHeader variant="blog" />
       <article>
         <header className="article-hero wrap-narrow">
@@ -106,16 +105,17 @@ export default async function BlogPostPage({ params }: PageProps) {
           </Link>
           {next ? (
             <Link className="text-link" href={`/blog/${next.slug}`}>
-              Next: {next.title} →
+              Next: {next.title}
             </Link>
           ) : null}
           {prev ? (
             <Link className="text-link" href={`/blog/${prev.slug}`}>
-              ← {prev.title}
+              Previous: {prev.title}
             </Link>
           ) : null}
         </footer>
       </article>
+      <SiteFooter />
     </>
   );
 }
