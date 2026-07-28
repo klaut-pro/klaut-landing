@@ -10,9 +10,8 @@ export function Hero() {
           <p className="brand-hero rise rise-1">klaut.pro</p>
           <h1 className="rise rise-2">One MCP. One bill for every agent tool.</h1>
           <p className="lede rise rise-3">
-            Connect your agents to one MCP endpoint. Run Secrets, Mail, Search,
-            Database, Storage, Literature, and Writing from one place. Pay for
-            usage from one token balance.
+            Connect your agents to one MCP endpoint. Pay for usage from one token
+            balance.
           </p>
           <div className="cta-group rise rise-4">
             <a className="btn btn-primary" href="#waitlist-form">
