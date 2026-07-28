@@ -4,7 +4,11 @@ import { FormEvent, useState } from "react";
 
 const WAITLIST_API = "/api/waitlist";
 
-export function WaitlistForm() {
+type WaitlistFormProps = {
+  source?: string;
+};
+
+export function WaitlistForm({ source = "landing-mcp" }: WaitlistFormProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "ok" | "dup" | "err">(
     "idle",
   );
@@ -38,7 +42,7 @@ export function WaitlistForm() {
           email,
           company: company || undefined,
           website: honey || undefined,
-          source: "landing-v1",
+          source,
         }),
       });
       const data = (await res.json().catch(() => null)) as {
@@ -62,7 +66,7 @@ export function WaitlistForm() {
         setMessage("You are already on the list.");
       } else {
         setStatus("ok");
-        setMessage("Saved. We will reach out with early access.");
+        setMessage("You are on the list.");
       }
       setPulse(true);
       form.reset();
@@ -80,7 +84,7 @@ export function WaitlistForm() {
         : "waitlist-note";
 
   return (
-    <form className="waitlist" onSubmit={onSubmit} noValidate>
+    <form className="waitlist" id="waitlist-form" onSubmit={onSubmit} noValidate>
       <input
         className="hp"
         type="text"
@@ -107,7 +111,7 @@ export function WaitlistForm() {
           type="submit"
           disabled={status === "loading"}
         >
-          {status === "loading" ? "Saving…" : "Join early access"}
+          {status === "loading" ? "Joining…" : "Join waitlist"}
         </button>
       </div>
       <div className="waitlist-row">
@@ -122,10 +126,7 @@ export function WaitlistForm() {
           autoComplete="organization"
         />
       </div>
-      <p className="trust">
-        For teams running agents in production. We reply with access, not
-        newsletter noise.
-      </p>
+      <p className="trust">Built for teams that run agents in production.</p>
       <p className={noteClass} role="status" aria-live="polite">
         {message}
       </p>

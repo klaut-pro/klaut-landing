@@ -8,8 +8,7 @@ export function BlogTeasers() {
       <div className="wrap">
         <h2>From the field</h2>
         <p className="section-lede">
-          Short notes on infrastructure, identity, and day-to-day work with
-          agent swarms.
+          Short notes on MCP tools, agent login, and running agents in production.
         </p>
         <div className="posts">
           {posts.map((post, i) => (

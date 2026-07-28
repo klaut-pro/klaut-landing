@@ -1,32 +1,31 @@
-import { Atmosphere } from "@/components/motion/Atmosphere";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Hero } from "@/components/Hero";
-import { Proof } from "@/components/Proof";
-import { Modules } from "@/components/Modules";
+import { PromiseBand } from "@/components/PromiseBand";
+import { Problem } from "@/components/Problem";
+import { HowItWorks } from "@/components/HowItWorks";
+import { Tools } from "@/components/Tools";
+import { Billing } from "@/components/Billing";
+import { WishTool } from "@/components/WishTool";
+import { Faq } from "@/components/Faq";
+import { FinalCta } from "@/components/FinalCta";
 import { BlogTeasers } from "@/components/BlogTeasers";
 import { SiteFooter } from "@/components/SiteFooter";
 
 export default function HomePage() {
   return (
     <>
-      <Atmosphere />
       <SiteHeader />
       <main>
         <Hero />
-        <Proof />
-        <Modules />
+        <PromiseBand />
+        <Problem />
+        <HowItWorks />
+        <Tools />
+        <Billing />
+        <WishTool />
+        <Faq />
         <BlogTeasers />
-        <section className="cta" id="cta">
-          <div className="wrap">
-            <h2>Build the layer before the swarm grows.</h2>
-            <p className="section-lede">
-              Early access opens in stages. A work email is enough.
-            </p>
-            <a className="btn btn-primary" href="#waitlist">
-              Join the waitlist
-            </a>
-          </div>
-        </section>
+        <FinalCta />
       </main>
       <SiteFooter />
     </>

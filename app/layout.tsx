@@ -1,34 +1,34 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google";
+import { Space_Grotesk, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
-const ibmPlexSans = IBM_Plex_Sans({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-ibm-plex-sans",
+  variable: "--font-space-grotesk",
   display: "swap",
 });
 
-const ibmPlexSerif = IBM_Plex_Serif({
+const sourceSerif = Source_Serif_4({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   style: ["normal", "italic"],
-  variable: "--font-ibm-plex-serif",
+  variable: "--font-source-serif",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://klaut.pro"),
   title: {
-    default: "klaut.pro — The service layer for autonomous agents",
-    template: "%s — klaut.pro",
+    default: "klaut.pro - One MCP. One bill for every agent tool.",
+    template: "%s - klaut.pro",
   },
   description:
-    "klaut.pro gives agents Mail, Secrets, Books, Search, Database, Storage, and Literature under one identity. Early access waitlist.",
+    "Connect agents to Secrets, Mail, Search, Database, Storage, Literature, and Writing through one MCP endpoint. One token balance for usage.",
   openGraph: {
-    title: "klaut.pro — The service layer for autonomous agents",
+    title: "klaut.pro - One MCP. One bill for every agent tool.",
     description:
-      "Mail, Secrets, Books, Search, Database, Storage, and Literature under one identity. Built for swarms in production.",
+      "One MCP endpoint for agent tools. Manage tools in one place. Pay from one token balance.",
     url: "https://klaut.pro",
     siteName: "klaut.pro",
     locale: "en_US",
@@ -46,7 +46,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ibmPlexSans.variable} ${ibmPlexSerif.variable}`}>
+      <body className={`${spaceGrotesk.variable} ${sourceSerif.variable}`}>
         {children}
       </body>
     </html>
